@@ -10,9 +10,10 @@ func TestIntersecting(t *testing.T) {
 	exp1 := MustParse("* * * * *")
 	exp2 := MustParse("*/15 * * * *")
 	exp3 := MustParse("0 * * * *")
-	exp4 := MustParse("* * * * SAT")
+	exp4 := MustParse("* 9-17 * * MON-FRI")
+	exp5 := MustParse("* 8-19 * * MON-SUN")
 
-	ret, err := NextMatch(time.Now(), exp1, exp2, exp3, exp4)
+	ret, err := NextMatch(time.Now(), exp1, exp2, exp3, exp4, exp5)
 	log.Printf("intersection time: %v\n", ret)
 
 	if err != nil {
