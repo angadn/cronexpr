@@ -238,6 +238,7 @@ func (expr *Expression) Next(fromTime time.Time, opts ...NextOption) time.Time {
 
 	for _, opt := range opts {
 		if opt == NextIfNotMatched {
+			// fromTime matches this cronexpr perfectly, so we return fromTime as-is.
 			return fromTime
 		}
 	}
