@@ -236,14 +236,14 @@ func (expr *Expression) Next(fromTime time.Time, opts ...NextOption) time.Time {
 		return expr.nextMinute(fromTime)
 	}
 
-	// If we reach this point, there is nothing better to do
-	// than to move to the next second
-
 	for _, opt := range opts {
 		if opt == NextIfNotMatched {
 			return fromTime
 		}
 	}
+
+	// If we reach this point, there is nothing better to do
+	// than to move to the next second
 
 	return expr.nextSecond(fromTime)
 }
