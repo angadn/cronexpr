@@ -39,10 +39,7 @@ func NextMatch(fromTime time.Time, expressions ...*Expression) (time.Time, error
 				return nextTime, ErrImpossibleExpression
 			}
 
-			maxNextTime = time.Unix(0, int64(math.Max(
-				float64(maxNextTime.UnixNano()),
-				float64(expTime.UnixNano()),
-			))).In(fromTime.Location())
+			maxNextTime = maxTime(maxNextTime, expTime).In(fromTime.Location())
 		}
 
 		if maxNextTime == nextTime {
@@ -53,4 +50,44 @@ func NextMatch(fromTime time.Time, expressions ...*Expression) (time.Time, error
 	}
 
 	return nextTime, ErrNoIntersectionPossible
+}
+
+// NextMatchAny finds the closest time instance that is any of the Expressions. All
+// expressions are evaluated in the same time-zone as `fromTime`.
+func NextMatchAny(fromTime time.Time, expressions ...*Expression) (time.Time, error) {
+	var minRet time.Time
+
+	for _, exp := range expressions {
+		if nextMatch := exp.Next(fromTime, NextIfNotMatched); nextMatch.Equal(fromTime) {
+			return nextMatch, nil
+		} else if nextMatch.After(fromTime) {
+			if minRet.Equal(time.Time{}) {
+				// First time init
+				minRet = nextMatch
+			} else {
+				minRet = minTime(minRet, nextMatch)
+			}
+		}
+	}
+
+	if minRet.Equal(time.Time{}) {
+		// Same as when defined - either no expressions or all invalid
+		return minRet, ErrImpossibleExpression
+	}
+
+	return minRet, nil
+}
+
+func maxTime(a time.Time, b time.Time) time.Time {
+	return time.Unix(0, int64(math.Max(
+		float64(a.UnixNano()),
+		float64(b.UnixNano()),
+	)))
+}
+
+func minTime(a time.Time, b time.Time) time.Time {
+	return time.Unix(0, int64(math.Min(
+		float64(a.UnixNano()),
+		float64(b.UnixNano()),
+	)))
 }

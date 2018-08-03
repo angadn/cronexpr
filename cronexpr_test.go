@@ -305,6 +305,13 @@ func TestInterval_Interval60Issue(t *testing.T) {
 	}
 }
 
+func TestMaxHour(t *testing.T) {
+	hour := MustParse("0-30 9-21 * * *").MaxHour()
+	if hour != 21 {
+		t.Fail()
+	}
+}
+
 /******************************************************************************/
 
 var benchmarkExpressions = []string{

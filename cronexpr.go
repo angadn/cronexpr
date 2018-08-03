@@ -289,3 +289,9 @@ func (expr *Expression) NextN(fromTime time.Time, n uint, opts ...NextOption) []
 func (expr *Expression) String() string {
 	return expr.expression
 }
+
+// MaxHour permissible for a given expression. This is useful when creating expiry
+// timestamps for events.
+func (expr *Expression) MaxHour() int {
+	return expr.hourList[len(expr.hourList)-1]
+}
