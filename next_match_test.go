@@ -13,10 +13,9 @@ func TestIntersecting(t *testing.T) {
 	exp4 := MustParse("* 9-17 * * FRI")
 	exp5 := MustParse("* 8-19 * * MON-SUN")
 
-	ret, err := NextMatch(time.Now(), exp1, exp2, exp3, exp4, exp5)
-	log.Printf("intersection time: %v\n", ret)
-
-	if err != nil {
+	if _, err := NextMatch(
+		time.Now(), exp1, exp2, exp3, exp4, exp5,
+	); err != nil {
 		log.Printf(err.Error())
 		t.Fail()
 	}
@@ -29,9 +28,9 @@ func TestNonIntersecting(t *testing.T) {
 	exp4 := MustParse("* * * * MON")
 	exp5 := MustParse("* * * * TUE")
 
-	_, err := NextMatch(time.Now(), exp1, exp2, exp3, exp4, exp5)
-
-	if err == nil {
+	if _, err := NextMatch(
+		time.Now(), exp1, exp2, exp3, exp4, exp5,
+	); err == nil {
 		// Must fail if no error!
 		t.Fail()
 	} else {

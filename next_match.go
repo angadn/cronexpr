@@ -6,6 +6,11 @@ import (
 	"time"
 )
 
+var (
+	// ErrNoIntersectionPossible if two expressions will never intersect for any time.
+	ErrNoIntersectionPossible = fmt.Errorf("no intersection possible among the given expressions")
+)
+
 // NextMatch finds the closest time instance that is agreeable to all Expressions. All
 // expressions are evaluated in the same time-zone as `fromTime`.
 func NextMatch(fromTime time.Time, expressions ...*Expression) (time.Time, error) {
@@ -34,5 +39,5 @@ func NextMatch(fromTime time.Time, expressions ...*Expression) (time.Time, error
 		nextTime = maxNextTime
 	}
 
-	return nextTime, fmt.Errorf("no intersection possible among the given expressions")
+	return nextTime, ErrNoIntersectionPossible
 }
