@@ -33,5 +33,5 @@ func NextMatch(fromTime time.Time, expressions ...*Expression) (time.Time, error
 		nextTime = maxNextTime
 	}
 
-	return nextTime, fmt.Errorf("no intersection is impossible among the given expressions")
+	return nextTime, fmt.Errorf("no intersection possible among the given expressions")
 }
