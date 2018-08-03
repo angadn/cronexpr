@@ -146,6 +146,14 @@ func Parse(cronLine string) (*Expression, error) {
 
 /******************************************************************************/
 
+// NextOption lets you alter the behaviour of Next
+type NextOption int
+
+const (
+	// NextIfNotMatched returns fromTime as-is if it's a perfect match for the cronexpr.
+	NextIfNotMatched = 1
+)
+
 // Next returns the closest time instant immediately following `fromTime` which
 // matches the cron expression `expr`.
 //
@@ -154,7 +162,7 @@ func Parse(cronLine string) (*Expression, error) {
 //
 // The zero value of time.Time is returned if no matching time instant exists
 // or if a `fromTime` is itself a zero value.
-func (expr *Expression) Next(fromTime time.Time) time.Time {
+func (expr *Expression) Next(fromTime time.Time, opts ...NextOption) time.Time {
 	// Special case
 	if fromTime.IsZero() {
 		return fromTime
@@ -230,6 +238,12 @@ func (expr *Expression) Next(fromTime time.Time) time.Time {
 
 	// If we reach this point, there is nothing better to do
 	// than to move to the next second
+
+	for _, opt := range opts {
+		if opt == NextIfNotMatched {
+			return fromTime
+		}
+	}
 
 	return expr.nextSecond(fromTime)
 }

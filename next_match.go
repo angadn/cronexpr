@@ -6,21 +6,23 @@ import (
 	"time"
 )
 
-// Next finds the closest time instance that is agreeable to all Expressions.
-func Next(fromTime time.Time, expressions ...Expression) (time.Time, error) {
+// NextMatch finds the closest time instance that is agreeable to all Expressions.
+func NextMatch(fromTime time.Time, expressions ...*Expression) (time.Time, error) {
 	var (
 		n        int
 		nextTime time.Time
 	)
 
 	n = len(expressions)
+	nextTime = fromTime
+
 	for passes := 0; passes <= n; passes++ {
 		maxNextTime := nextTime
 		for _, e := range expressions {
 			// Get the maximal value for the next iteration of nextTime
 			maxNextTime = time.Unix(0, int64(math.Max(
 				float64(maxNextTime.UnixNano()),
-				float64(e.Next(nextTime).UnixNano()),
+				float64(e.Next(nextTime, NextIfNotMatched).UnixNano()),
 			)))
 		}
 
