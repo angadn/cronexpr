@@ -312,6 +312,13 @@ func TestMaxHour(t *testing.T) {
 	}
 }
 
+func TestMaxMinutes(t *testing.T) {
+	minutes := MustParse("0-15,30-45 9-21 * * *").MaxMinutes()
+	if minutes != 45 {
+		t.Fail()
+	}
+}
+
 /******************************************************************************/
 
 var benchmarkExpressions = []string{

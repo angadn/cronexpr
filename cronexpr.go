@@ -295,3 +295,9 @@ func (expr *Expression) String() string {
 func (expr *Expression) MaxHour() int {
 	return expr.hourList[len(expr.hourList)-1]
 }
+
+// MaxMinutes permissible for a given expression. This is useful when creating expiry
+// timestamps for events.
+func (expr *Expression) MaxMinutes() int {
+	return expr.minuteList[len(expr.minuteList)-1]
+}
