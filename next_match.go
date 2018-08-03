@@ -39,7 +39,7 @@ func NextMatch(fromTime time.Time, expressions ...*Expression) (time.Time, error
 				return nextTime, ErrImpossibleExpression
 			}
 
-			maxNextTime = maxTime(maxNextTime, expTime).In(fromTime.Location())
+			maxNextTime = MaxTime(maxNextTime, expTime).In(fromTime.Location())
 		}
 
 		if maxNextTime == nextTime {
@@ -65,7 +65,7 @@ func NextMatchAny(fromTime time.Time, expressions ...*Expression) (time.Time, er
 				// First time init
 				minRet = nextMatch
 			} else {
-				minRet = minTime(minRet, nextMatch)
+				minRet = MinTime(minRet, nextMatch)
 			}
 		}
 	}
@@ -78,14 +78,14 @@ func NextMatchAny(fromTime time.Time, expressions ...*Expression) (time.Time, er
 	return minRet, nil
 }
 
-func maxTime(a time.Time, b time.Time) time.Time {
+func MaxTime(a time.Time, b time.Time) time.Time {
 	return time.Unix(0, int64(math.Max(
 		float64(a.UnixNano()),
 		float64(b.UnixNano()),
 	)))
 }
 
-func minTime(a time.Time, b time.Time) time.Time {
+func MinTime(a time.Time, b time.Time) time.Time {
 	return time.Unix(0, int64(math.Min(
 		float64(a.UnixNano()),
 		float64(b.UnixNano()),
