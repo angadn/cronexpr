@@ -6,7 +6,8 @@ import (
 	"time"
 )
 
-// NextMatch finds the closest time instance that is agreeable to all Expressions.
+// NextMatch finds the closest time instance that is agreeable to all Expressions. All
+// expressions are evaluated in the same time-zone as `fromTime`.
 func NextMatch(fromTime time.Time, expressions ...*Expression) (time.Time, error) {
 	var (
 		n        int
