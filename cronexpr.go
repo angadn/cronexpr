@@ -290,8 +290,12 @@ func (expr *Expression) String() string {
 	return expr.expression
 }
 
-// MaxTime permissible for a given expression. This is useful when creating expiry
-// timestamps for events.
+// MaxTime of the day permissible for a given expression.
 func (expr *Expression) MaxTime() (hour int, minutes int) {
 	return expr.hourList[len(expr.hourList)-1], expr.minuteList[len(expr.minuteList)-1]
+}
+
+// MinTime of the day permissible for a given expression.
+func (expr *Expression) MinTime() (hour int, minutes int) {
+	return expr.hourList[0], expr.minuteList[0]
 }

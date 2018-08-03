@@ -312,6 +312,13 @@ func TestMaxTime(t *testing.T) {
 	}
 }
 
+func TestMinTime(t *testing.T) {
+	hour, minutes := MustParse("0-15,30-45 9-21 * * *").MinTime()
+	if hour != 9 && minutes != 0 {
+		t.Fail()
+	}
+}
+
 /******************************************************************************/
 
 var benchmarkExpressions = []string{
