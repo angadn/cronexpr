@@ -26,6 +26,7 @@ import (
 // A Expression represents a specific cron time expression as defined at
 // <https://github.com/gorhill/cronexpr#implementation>
 type Expression struct {
+	Location               *time.Location
 	expression             string
 	secondList             []int
 	minuteList             []int
@@ -261,10 +262,10 @@ func (expr *Expression) Next(fromTime time.Time, opts ...NextOption) time.Time {
 // A slice with len between [0-`n`] is returned, that is, if not enough existing
 // matching time instants exist, the number of returned entries will be less
 // than `n`.
-func (expr *Expression) NextN(fromTime time.Time, n uint) []time.Time {
+func (expr *Expression) NextN(fromTime time.Time, n uint, opts ...NextOption) []time.Time {
 	nextTimes := make([]time.Time, 0, n)
 	if n > 0 {
-		fromTime = expr.Next(fromTime)
+		fromTime = expr.Next(fromTime, opts...)
 		for {
 			if fromTime.IsZero() {
 				break
