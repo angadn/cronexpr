@@ -78,6 +78,7 @@ func NextMatchAny(fromTime time.Time, expressions ...*Expression) (time.Time, er
 	return minRet, nil
 }
 
+// MaxTime returns the maximal value between `a` and `b`.
 func MaxTime(a time.Time, b time.Time) time.Time {
 	return time.Unix(0, int64(math.Max(
 		float64(a.UnixNano()),
@@ -85,6 +86,7 @@ func MaxTime(a time.Time, b time.Time) time.Time {
 	)))
 }
 
+// MinTime returns the minimal value between `a` and `b`.
 func MinTime(a time.Time, b time.Time) time.Time {
 	return time.Unix(0, int64(math.Min(
 		float64(a.UnixNano()),
