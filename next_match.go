@@ -23,7 +23,7 @@ func NextMatch(fromTime time.Time, expressions ...*Expression) (time.Time, error
 			maxNextTime = time.Unix(0, int64(math.Max(
 				float64(maxNextTime.UnixNano()),
 				float64(e.Next(nextTime, NextIfNotMatched).UnixNano()),
-			)))
+			))).In(fromTime.Location())
 		}
 
 		if maxNextTime == nextTime {
