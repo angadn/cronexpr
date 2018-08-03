@@ -169,6 +169,10 @@ func (expr *Expression) Next(fromTime time.Time, opts ...NextOption) time.Time {
 		return fromTime
 	}
 
+	if expr.Location != nil {
+		fromTime = fromTime.In(expr.Location)
+	}
+
 	// Since expr.nextSecond()-expr.nextMonth() expects that the
 	// supplied time stamp is a perfect match to the underlying cron
 	// expression, and since this function is an entry point where `fromTime`
