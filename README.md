@@ -122,7 +122,7 @@ returned.
 
 API
 ---
-<http://godoc.org/github.com/gorhill/cronexpr>
+<http://godoc.org/github.com/angadn/cronexpr>
 
 License
 -------
