@@ -142,6 +142,7 @@ func Parse(cronLine string) (*Expression, error) {
 		expr.yearList = yearDescriptor.defaultList
 	}
 
+	expr.expression = cron
 	return &expr, nil
 }
 
@@ -283,4 +284,8 @@ func (expr *Expression) NextN(fromTime time.Time, n uint, opts ...NextOption) []
 		}
 	}
 	return nextTimes
+}
+
+func (expr *Expression) String() string {
+	return expr.expression
 }
