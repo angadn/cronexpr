@@ -2,7 +2,6 @@ package cronexpr
 
 import (
 	"fmt"
-	"math"
 	"time"
 )
 
@@ -43,16 +42,18 @@ func NextMatchAny(fromTime time.Time, expressions ...*Expression) (time.Time, er
 
 // MaxTime returns the maximal value between `a` and `b`.
 func MaxTime(a time.Time, b time.Time) time.Time {
-	return time.Unix(0, int64(math.Max(
-		float64(a.UnixNano()),
-		float64(b.UnixNano()),
-	)))
+	if a.After(b) {
+		return a
+	}
+
+	return b
 }
 
 // MinTime returns the minimal value between `a` and `b`.
 func MinTime(a time.Time, b time.Time) time.Time {
-	return time.Unix(0, int64(math.Min(
-		float64(a.UnixNano()),
-		float64(b.UnixNano()),
-	)))
+	if a.Before(b) {
+		return a
+	}
+
+	return b
 }
